@@ -21,7 +21,7 @@ import java.io.Reader;
 /**
  * You're going to have to register for a Weather Underground API key and put it in a strings
  * resource file.  I suggest using secret.xml as that will be excluded from source control via
- * our .gitignroe file.
+ * our .gitignore file.
  *
  * Other than that please know that this is NOT production worthy code and is intended to provide
  * a very basic solution for one of my coding challenges.  Proceed with caution ;)
@@ -30,6 +30,7 @@ public class CurrentConditionsActivity extends Activity {
 
     private static final String TAG = CurrentConditionsActivity.class.getSimpleName();
 
+    // TODO Add a refresh button
     private TextView textView;
 
     @Override
@@ -43,6 +44,12 @@ public class CurrentConditionsActivity extends Activity {
         getCurrentConditionsTask.execute();
     }
 
+    // TODO if we've already fetched the data then don't fetch it again: rotate the phone and observe, get a phone call or response to a notification and observe ;)
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private class GetCurrentConditionsTask extends AsyncTask<Void, Void, CurrentConditions> {
 
         private String url = "http://api.wunderground.com/api/{APIKEY}/conditions/q/SC/Charleston.json";
@@ -54,7 +61,9 @@ public class CurrentConditionsActivity extends Activity {
                 return;
             }
             if (currentConditions != null) {
+                //noinspection StringBufferReplaceableByString
                 StringBuilder conditionsBuilder = new StringBuilder();
+                // TODO Add the remaining fields from the Novice Level Requirements and pretty everything up
                 conditionsBuilder.append(currentConditions.getCurrentObservation().getDisplayLocation().getFull())
                         .append("\n")
                         .append(currentConditions.getCurrentObservation().getObservationTime())
@@ -68,6 +77,7 @@ public class CurrentConditionsActivity extends Activity {
 
         @Override
         protected CurrentConditions doInBackground(Void... params) {
+            // TODO Add a progress bar to indicate "work" to the user.
             InputStream source = retrieveStream(
                     url.replace("{APIKEY}",
                      /* you need to add an API key in strings */ getString(R.string.wu_api_key))
