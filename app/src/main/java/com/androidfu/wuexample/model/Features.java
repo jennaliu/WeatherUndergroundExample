@@ -6,14 +6,14 @@ import com.google.gson.annotations.Expose;
 public class Features {
 
     @Expose
-    private Integer conditions;
+    private Integer forecast;
 
-    public Integer getConditions() {
-        return conditions;
+    public Integer getForecast() {
+        return forecast;
     }
 
-    public void setConditions(Integer conditions) {
-        this.conditions = conditions;
+    public void setForecast(Integer forecast) {
+        this.forecast = forecast;
     }
 
 }
